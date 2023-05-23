@@ -1,0 +1,155 @@
+{
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "bytecode": {
+    "object": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220976931d6b9f30612f535a9bf02a7b0b053c8c5e79cb38578ae8f69dc0ec57bb064736f6c63430008130033",
+    "sourceMap": "64:44:0:-:0;;;90:16;;;;;;;;;;64:44;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x6080604052600080fdfea2646970667358221220976931d6b9f30612f535a9bf02a7b0b053c8c5e79cb38578ae8f69dc0ec57bb064736f6c63430008130033",
+    "sourceMap": "64:44:0:-:0;;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Contract.sol\":\"MyContract\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@thirdweb-dev/=node_modules/@thirdweb-dev/\",\":hardhat/=node_modules/hardhat/\"]},\"sources\":{\"contracts/Contract.sol\":{\"keccak256\":\"0x5fedb85489ae017822ae5b23bf89917ce3f61f664104b4ef6fec1e03b3e9f3a3\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://a772baf15d4aa3fec336ddb5eefc2d94b2d2431378abe9cf74d4db69806077f4\",\"dweb:/ipfs/QmPtEAbBGoypaC1CeTNEWr8ha8bcPJfDcTUgiAE91d6U1c\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.19+commit.7dd6d404"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        ":@thirdweb-dev/=node_modules/@thirdweb-dev/",
+        ":hardhat/=node_modules/hardhat/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "contracts/Contract.sol": "MyContract"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "contracts/Contract.sol": {
+        "keccak256": "0x5fedb85489ae017822ae5b23bf89917ce3f61f664104b4ef6fec1e03b3e9f3a3",
+        "urls": [
+          "bzz-raw://a772baf15d4aa3fec336ddb5eefc2d94b2d2431378abe9cf74d4db69806077f4",
+          "dweb:/ipfs/QmPtEAbBGoypaC1CeTNEWr8ha8bcPJfDcTUgiAE91d6U1c"
+        ],
+        "license": "UNLICENSED"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "contracts/Contract.sol",
+    "id": 7,
+    "exportedSymbols": {
+      "MyContract": [
+        6
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "39:70:0",
+    "nodes": [
+      {
+        "id": 1,
+        "nodeType": "PragmaDirective",
+        "src": "39:23:0",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".9"
+        ]
+      },
+      {
+        "id": 6,
+        "nodeType": "ContractDefinition",
+        "src": "64:44:0",
+        "nodes": [
+          {
+            "id": 5,
+            "nodeType": "FunctionDefinition",
+            "src": "90:16:0",
+            "nodes": [],
+            "body": {
+              "id": 4,
+              "nodeType": "Block",
+              "src": "104:2:0",
+              "nodes": [],
+              "statements": []
+            },
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "parameters": {
+              "id": 2,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "101:2:0"
+            },
+            "returnParameters": {
+              "id": 3,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "104:0:0"
+            },
+            "scope": 6,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "MyContract",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          6
+        ],
+        "name": "MyContract",
+        "nameLocation": "73:10:0",
+        "scope": 7,
+        "usedErrors": []
+      }
+    ],
+    "license": "UNLICENSED"
+  },
+  "id": 0
+}
