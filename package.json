@@ -5,6 +5,9 @@
     "release": "npx thirdweb@latest release"
   },
   "dependencies": {
+    "@divergencetech/ethier": "^0.55.0",
+    "@manifoldxyz/creator-core-solidity": "^3.0.0",
+    "@manifoldxyz/libraries-solidity": "^1.0.4",
     "@openzeppelin/contracts": "^4.8.3",
     "@openzeppelin/contracts-upgradeable": "^4.8.3",
     "@thirdweb-dev/contracts": "^3",
