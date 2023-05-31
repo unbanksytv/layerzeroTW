@@ -52,10 +52,6 @@ Remember, no amount of coding can completely eliminate risk. The best way to sec
 
 ## LayerZero
 
-<div align="center">
-    <img alt="LayerZero" src="resources/LayerZeroLogo.png"/>
-</div>
-
 ---
 
 # LayerZero Omnichain Contract Examples
