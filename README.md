@@ -78,6 +78,8 @@ If you are considering creating an ERC20 token to facilitate the functionality o
 
 By having a dedicated token, you can maintain more flexibility and control over the tokenomics, distribution, and governance aspects of your ecosystem. Additionally, using a well-established token standard like ERC20 allows for better integration with existing infrastructure and tools in the DeFi space.
 
+ERC721Psi is an ERC721 compliant implementation designed for scalable and gas-efficient on-chain application with built-in randomized metadata generation.
+
 ## LayerZero
 LayerZero's implementation in an omnichain world unlocks seamless interoperability, enhanced scalability, cost efficiency, cross-chain asset support, improved user privacy, and a developer-friendly environment. These advantages significantly enhance the user experience, enabling individuals to seamlessly navigate the diverse blockchain landscape while enjoying faster transactions, lower costs, and increased accessibility.
 ---
