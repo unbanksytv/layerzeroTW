@@ -1,100 +1,100 @@
-// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-pragma solidity ^0.8.9;
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
+import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 
-/// @author: manifold.xyz
+contract IkigaiNFT is ERC721, Ownable {
+    IUniswapV2Router02 public uniswapRouter;
+    IUniswapV2Pair public liquidityPair;
+    address public WETH;
 
-import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+    uint256 public constant MINT_PRICE = 1 ether;
+    uint256 public constant MINT_LIMIT = 10000;
 
-import "../extensions/ERC721/IERC721CreatorExtensionApproveTransfer.sol";
-import "../extensions/ERC721/IERC721CreatorExtensionBurnable.sol";
-import "../permissions/ERC721/IERC721CreatorMintPermissions.sol";
-import "./IERC721CreatorCore.sol";
-import "./CreatorCore.sol";
+    uint256 public totalMinted;
+    uint256 public lockedLiquidity;
 
-/**
- * @dev Core ERC721 creator implementation
- */
-abstract contract ERC721CreatorCore is CreatorCore, IERC721CreatorCore {
-
-    uint256 constant public VERSION = 2;
-
-    using EnumerableSet for EnumerableSet.AddressSet;
-
-    /**
-     * @dev See {IERC165-supportsInterface}.
-     */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(CreatorCore, IERC165) returns (bool) {
-        return interfaceId == type(IERC721CreatorCore).interfaceId || super.supportsInterface(interfaceId);
+    struct Proposal {
+        uint256 amount;
+        uint256 endTime;
+        uint256 yesVotes;
+        mapping(address => bool) hasVoted;
     }
 
-    /**
-     * @dev See {CreatorCore-_setApproveTransferExtension}
-     */
-    function _setApproveTransferExtension(address extension, bool enabled) internal override {
-        if (ERC165Checker.supportsInterface(extension, type(IERC721CreatorExtensionApproveTransfer).interfaceId)) {
-            _extensionApproveTransfers[extension] = enabled;
-            emit ExtensionApproveTransferUpdated(extension, enabled);
+    Proposal[] public proposals;
+
+    constructor(address _uniswapRouter) ERC721("Ikigai NFT", "IKG") {
+        uniswapRouter = IUniswapV2Router02(_uniswapRouter);
+        WETH = uniswapRouter.WETH();
+    }
+
+    function mint(uint256 amount) external payable {
+        require(totalSupply() + amount <= MINT_LIMIT, "Mint limit reached");
+        require(msg.value >= MINT_PRICE * amount, "Ether value sent is not correct");
+
+        uint256 liquidityAmount = (msg.value * 80) / 100;
+        lockedLiquidity += liquidityAmount;
+
+        for (uint256 i = 0; i < amount; i++) {
+            _mint(msg.sender, totalMinted + i);
+        }
+
+        totalMinted += amount;
+    }
+
+    function createProposal(uint256 amount) external onlyOwner {
+        proposals.push(Proposal({
+            amount: amount,
+            endTime: block.timestamp + 7 days, // Proposal expires after one week
+            yesVotes: 0
+        }));
+    }
+
+    function vote(uint256 proposalIndex, bool vote) external {
+        Proposal storage proposal = proposals[proposalIndex];
+
+        require(!proposal.hasVoted[msg.sender], "Already voted");
+        require(block.timestamp <= proposal.endTime, "Proposal expired");
+
+        proposal.hasVoted[msg.sender] = true;
+
+        if (vote) {
+            proposal.yesVotes += balanceOf(msg.sender);
         }
     }
 
-    /**
-     * @dev Set mint permissions for an extension
-     */
-    function _setMintPermissions(address extension, address permissions) internal {
-        require(_extensions.contains(extension), "CreatorCore: Invalid extension");
-        require(permissions == address(0) || ERC165Checker.supportsInterface(permissions, type(IERC721CreatorMintPermissions).interfaceId), "Invalid address");
-        if (_extensionPermissions[extension] != permissions) {
-            _extensionPermissions[extension] = permissions;
-            emit MintPermissionsUpdated(extension, permissions, msg.sender);
+    function executeProposal(uint256 proposalIndex) external onlyOwner {
+        Proposal storage proposal = proposals[proposalIndex];
+
+        require(block.timestamp > proposal.endTime, "Proposal not yet expired");
+        require(proposal.yesVotes * 2 > totalSupply(), "Not enough votes"); // Requires majority
+
+        removeLiquidity(proposal.amount);
+    }
+
+    function removeLiquidity(uint256 liquidity) internal {
+        require(liquidityPair.balanceOf(address(this)) >= liquidity, "Not enough LP tokens");
+
+        // Approve Uniswap router to transfer LP tokens
+        liquidityPair.approve(address(uniswapRouter), liquidity);
+
+        // Remove the liquidity
+        (uint256 amountToken, uint256 amountETH) = uniswapRouter.removeLiquidityETH(
+            address(this),
+            WETH,
+            liquidity,
+            0, // slippage is unavoidable
+            0, // slippage is unavoidable
+            address(this),
+            block.timestamp
+        );
+
+        // Redistribute the received funds among the token holders
+        for (uint256 i = 0; i < totalSupply(); i++) {
+            payable(ownerOf(i)).transfer((amountETH * balanceOf(ownerOf(i))) / totalSupply());
+            _safeTransfer(ownerOf(i), ownerOf(i), amountToken * balanceOf(ownerOf(i)) / totalSupply(), "");
         }
     }
-
-    /**
-     * Check if an extension can mint
-     */
-    function _checkMintPermissions(address to, uint256 tokenId) internal {
-        if (_extensionPermissions[msg.sender] != address(0)) {
-            IERC721CreatorMintPermissions(_extensionPermissions[msg.sender]).approveMint(msg.sender, to, tokenId);
-        }
-    }
-
-    /**
-     * Override for post mint actions
-     */
-    function _postMintBase(address, uint256) internal virtual {}
-
-    
-    /**
-     * Override for post mint actions
-     */
-    function _postMintExtension(address, uint256) internal virtual {}
-
-    /**
-     * Post-burning callback and metadata cleanup
-     */
-    function _postBurn(address owner, uint256 tokenId) internal virtual {
-        // Callback to originating extension if needed
-        if (_tokensExtension[tokenId] != address(0)) {
-           if (ERC165Checker.supportsInterface(_tokensExtension[tokenId], type(IERC721CreatorExtensionBurnable).interfaceId)) {
-               IERC721CreatorExtensionBurnable(_tokensExtension[tokenId]).onBurn(owner, tokenId);
-           }
-        }
-        // Clear metadata (if any)
-        if (bytes(_tokenURIs[tokenId]).length != 0) {
-            delete _tokenURIs[tokenId];
-        }    
-        // Delete token origin extension tracking
-        delete _tokensExtension[tokenId];    
-    }
-
-    /**
-     * Approve a transfer
-     */
-    function _approveTransfer(address from, address to, uint256 tokenId) internal {
-       if (_extensionApproveTransfers[_tokensExtension[tokenId]]) {
-           require(IERC721CreatorExtensionApproveTransfer(_tokensExtension[tokenId]).approveTransfer(msg.sender, from, to, tokenId), "ERC721Extension approval failure");
-       }
-    }
-
 }
