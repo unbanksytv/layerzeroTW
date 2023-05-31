@@ -19,7 +19,7 @@ By leveraging the capabilities of DeFi protocols, this contract creates synergie
 The flexibility and versatility of this contract pave the way for future innovations within the NFT space. Developers and creators can explore new possibilities by building on top of this foundation, introducing novel features, especially with ERC-6551. Imagine you connect your PFP with AI and turn it into a trader. You can add any NFT or ERC-20 token to your PFP account. For example, you give your PFP 1 ETH and send it to trade for you. ERC-6551 is the next innovation for NFTs and a big step in turning your PFP into an on-chain identity. It allows history to be created from the NFT rather than your wallet. This opens up many new possibilities in trading, provenance, and governance. That being said, it's very similar to what DefiNft has been doing this since 2021, so def wanted to shoutout to the OGs 
 
 ## Conclusion:
-The smart contract presented here combines the best elements of NFTs and DeFi, creating a platform where liquidity, value stability, and community governance converge.
+Blending NFTs and DeFi, creating a platform where liquidity, value stability, and community governance converge.
 
 
 ## Getting Started
