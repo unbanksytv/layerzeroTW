@@ -50,7 +50,15 @@ yarn release
 
 Remember, no amount of coding can completely eliminate risk. The best way to secure your contract is through a combination of rigorous testing, formal verification, audits by reputable security firms, bug bounties, and a careful, gradual launch. You also need to stay up-to-date on the latest vulnerabilities and attacks in the Ethereum ecosystem.
 
+If you are considering creating an ERC20 token to facilitate the functionality of your NFT marketplace and AMM, it may be more appropriate to stick with the original approach where you have a separate ERC20 token for payments and liquidity provision.
+
+By having a dedicated token, you can maintain more flexibility and control over the tokenomics, distribution, and governance aspects of your ecosystem. Additionally, using a well-established token standard like ERC20 allows for better integration with existing infrastructure and tools in the DeFi space.
+
 ## LayerZero
+
+<div align="center">
+    <img alt="LayerZero" src="resources/LayerZeroLogo.png"/>
+</div>
 
 ---
 
