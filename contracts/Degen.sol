@@ -171,8 +171,8 @@ contract Degen is
     using ECDSA for bytes32;
     mapping(bytes => uint256) private usedTickets;
     string public baseTokenURI;
-    uint256 public startPresaleDate = 1639771200;
-    uint256 public startMintDate = 1639850400;
+    uint256 public startPresaleDate = 1685700165;
+    uint256 public startMintDate = 1685786565;
     uint256 public constant MAX_SUPPLY = 999;
     uint256 public constant MINT_PRICE = 0.069 ether;
     uint256 public constant MAX_PURCHASE_COUNT = 9;
